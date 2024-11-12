@@ -240,3 +240,134 @@ int main(){
     return 0;
 }
 ```
+
+#### The process ids, arrival time and burst time for a set of processes are given. Write a C program to display the details of the processes along with thw waiting time and turnaround time for each process using First Come First Serve CPU scheduling algorithm. Also find the average waiting time and average turnaround time.
+
+__________________________________________________________
+|  Process  |  Arrival Time  |  Burst Time  |  Priority  |
+|--------------------------------------------------------|
+|  P0       |  0             |  4           |  2         |
+|--------------------------------------------------------|
+|  P1       |  1             |  3           |  3         |
+|--------------------------------------------------------|
+|  P2       |  2             |  1           |  4         |
+|--------------------------------------------------------|
+|  P3       |  3             |  5           |  5         |
+|--------------------------------------------------------|
+|  P4       |  4             |  2           |  5         |
+|--------------------------------------------------------|
+
+
+<table>
+  <tr>
+    <th>Process</th>
+    <th>Arrival Time</th>
+    <th>Burst Time</th>
+  </tr>
+  <tr>
+    <td>P0</td>
+    <td>0</td>
+    <td>4</td>
+  </tr>
+  <tr>
+    <td>P1</td>
+    <td>1</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>P2</td>
+    <td>2</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>P3</td>
+    <td>3</td>
+    <td>5</td>
+  </tr>
+  <tr>
+    <td>P4</td>
+    <td>4</td>
+    <td>2</td>
+  </tr>
+</table>
+
+
+
+
+```c
+#include <stdio.h>
+
+struct Process{
+    int id;
+    int arrivalTime;
+    int burstTime;
+};
+
+int i,j;
+
+void printProcess(struct Process p) {
+    printf("Process ID: %d\n", p.id);
+    printf("Arrival Time: %d\n", p.arrivalTime);
+    printf("Burst Time: %d\n", p.burstTime);
+    printf("\n");
+}
+
+void fcfsScheduling(struct Process *p,int n){
+    for(i=0;i<n-1;i++){
+        int flag = 0;
+        for(j=0;j<n-i-1;j++){
+            if(p[j].arrivalTime>p[j+1].arrivalTime){
+                struct Process temp = p[j];
+                p[j] = p[j+1];
+                p[j+1] = temp;
+                flag = 1;
+            }
+        }
+        if(flag==0){
+            break;
+        }
+    }
+    int  currentTime = 0;
+    double sumWaitTime = 0;
+    for(i=0;i<n;i++){
+        int wt = currentTime-p[i].arrivalTime;
+        printf("Waiting time of process P%d : %d\n",i,wt);
+        sumWaitTime += wt;
+        currentTime += p[i].burstTime;
+    }
+    printf("Average waiting time : %f\n",(sumWaitTime/n));
+
+    printf("\n");
+
+    currentTime = 0;
+    double turnAroundTime = 0;
+    for(i=0;i<n;i++){
+        currentTime += p[i].burstTime;
+        int tat = currentTime-p[i].arrivalTime;
+        printf("Turnaround time of process P%d : %d\n",i,tat);
+        turnAroundTime += tat;
+    }
+    printf("Average turnaround time : %f",(turnAroundTime/n));
+}
+
+int main(){
+
+    struct Process process[] = {
+        {0,0,4},
+        {1,1,3},
+        {2,2,1},
+        {3,3,5},
+        {4,4,2}
+    };
+
+    int n = sizeof(process)/sizeof(process[0]);
+
+    for(int i=0;i<n;i++){
+        printProcess(process[i]);
+    }
+
+    fcfsScheduling(process, n);
+
+    return 0;
+}
+```
