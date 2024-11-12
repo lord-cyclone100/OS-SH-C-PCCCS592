@@ -243,21 +243,6 @@ int main(){
 
 #### The process ids, arrival time and burst time for a set of processes are given. Write a C program to display the details of the processes along with thw waiting time and turnaround time for each process using First Come First Serve CPU scheduling algorithm. Also find the average waiting time and average turnaround time.
 
-__________________________________________________________
-|  Process  |  Arrival Time  |  Burst Time  |  Priority  |
-|--------------------------------------------------------|
-|  P0       |  0             |  4           |  2         |
-|--------------------------------------------------------|
-|  P1       |  1             |  3           |  3         |
-|--------------------------------------------------------|
-|  P2       |  2             |  1           |  4         |
-|--------------------------------------------------------|
-|  P3       |  3             |  5           |  5         |
-|--------------------------------------------------------|
-|  P4       |  4             |  2           |  5         |
-|--------------------------------------------------------|
-
-
 <table>
   <tr>
     <th>Process</th>
